@@ -1,0 +1,174 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: A micro-service used to subscribe/unsubscribe and send out my newsletter.
+
+Parameters:
+  PhoneNumber:
+    Type: String
+    Description: "Who to text when you get a new subscriber"
+
+Mappings:
+  BatchSizeMap:
+    ProcessBatchSize:
+      Value: 5
+
+Resources:
+
+  # Newsletter Subscribe / Unsubscribe Resources
+
+  NewsletterSubscribeFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/NewsletterSubscribeFunction.handler
+      Runtime: nodejs12.x
+      MemorySize: 128
+      Timeout: 60
+      Description: A Lambda function that subscribes users to my newsletter
+      Environment:
+        Variables:
+          API_ID_PARAM_NAME: !Sub '${AWS::Region}-${AWS::AccountId}-prod-newsletterapiid'
+          SUB_TABLE_NAME: SubscribersTable
+          PHONE_NUMBER: !Ref PhoneNumber
+      Policies:
+        - AWSLambdaBasicExecutionRole
+        - AmazonSESFullAccess
+        - AmazonSNSFullAccess
+        - AmazonSSMFullAccess
+        - AmazonDynamoDBFullAccess
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /subscribe
+            Method: POST
+            RestApiId:
+              Ref: NewsletterApi
+
+  NewsletterUnsubscribeFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/NewsletterUnsubscribeFunction.handler
+      Runtime: nodejs12.x
+      MemorySize: 128
+      Timeout: 60
+      Description: A Lambda function that unsubscribes users from my newsletter
+      Environment:
+        Variables:
+          API_ID_PARAM_NAME: !Sub '${AWS::Region}-${AWS::AccountId}-prod-newsletterapiid'
+          SUB_TABLE_NAME: SubscribersTable
+      Policies:
+        - AWSLambdaBasicExecutionRole
+        - AmazonSESFullAccess
+        - AmazonSNSFullAccess
+        - AmazonDynamoDBFullAccess
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /unsubscribe/{email}/{unsubLink}
+            Method: GET
+            RestApiId:
+              Ref: NewsletterApi
+
+  NewsletterApiIDParameter:
+    Type: AWS::SSM::Parameter
+    DependsOn: NewsletterApi
+    Properties:
+      Name: !Sub '${AWS::Region}-${AWS::AccountId}-prod-newsletterapiid'
+      Type: String
+      Value: !GetAtt NewsletterApi.RootResourceId
+      Description: Store the RestAPI ID
+
+  NewsletterApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: prod
+
+  # Shared Resources
+
+  SubscribersTable:
+    Type: AWS::DynamoDB::Table
+    Properties: 
+      AttributeDefinitions: 
+        - AttributeName: "email"
+          AttributeType: "S"
+      BillingMode: PAY_PER_REQUEST
+      KeySchema: 
+        - AttributeName: "email"
+          KeyType: "HASH"
+      PointInTimeRecoverySpecification: 
+        PointInTimeRecoveryEnabled: true
+      TableName: SubscribersTable
+
+  # Newsletter Sender Resources
+
+  GenerateSendNewsletterRequestsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/GenerateSendNewsletterRequestsFunction.handler
+      Runtime: nodejs12.x
+      MemorySize: 256
+      Timeout: 120
+      Description: A Lambda function that gathers all of my subscribers then creates a send reques and places it on a queue
+      Environment:
+        Variables:
+          API_ID_PARAM_NAME: !Sub '${AWS::Region}-${AWS::AccountId}-prod-newsletterapiid'
+          QUEUE_NAME: !GetAtt NewsletterSendRequestsQueue.QueueName
+          SUB_TABLE_NAME: SubscribersTable
+          BATCH_SIZE: !FindInMap [BatchSizeMap, ProcessBatchSize, Value]
+      Policies:
+        - AmazonSESFullAccess
+        - AmazonDynamoDBFullAccess
+        - AWSStepFunctionsFullAccess
+        - AmazonSQSFullAccess
+        - AmazonSSMFullAccess
+      Events:
+        S3NewObjectEvent:
+          Type: S3
+          Properties:
+            Bucket: !Ref NewsLetterBucket
+            Events: s3:ObjectCreated:*
+            Filter:
+              S3Key:
+                Rules:
+                  - Name: suffix
+                    Value: ".html"
+  
+  NewsletterSenderFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/NewsletterSenderFunction.handler
+      Runtime: nodejs12.x
+      MemorySize: 512
+      Timeout: 120
+      Description: A Lambda function that processes Newsletter Send Requests from SQS
+      Environment:
+        Variables:
+          BUCKET_NAME: !Sub '${AWS::Region}-${AWS::AccountId}-prod-newsletterbucket'
+          ACTUALLY_SEND_EMAILS: 'false'
+      Policies:
+        - S3ReadPolicy:
+            BucketName: !Ref NewsLetterBucket
+        - AmazonSQSFullAccess
+        - AWSLambdaBasicExecutionRole
+        - AmazonDynamoDBFullAccess
+      Events:
+        SQSEvent:
+          Type: SQS
+          Properties:
+            Queue: !GetAtt NewsletterSendRequestsQueue.Arn
+            BatchSize: !FindInMap [BatchSizeMap, ProcessBatchSize, Value]
+            Enabled: true
+
+  NewsLetterBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub '${AWS::Region}-${AWS::AccountId}-prod-newsletterbucket'
+
+  NewsletterSendRequestsQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: NewsletterSendRequestsQueue
+      ReceiveMessageWaitTimeSeconds: 20
+      VisibilityTimeout: 120
+
