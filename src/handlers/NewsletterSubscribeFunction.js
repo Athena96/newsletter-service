@@ -2,33 +2,27 @@ const sha1 = require('sha1');
 const AWS = require('aws-sdk');
 AWS.config.update({ region: 'us-west-2' });
 
-var ddb = new AWS.DynamoDB.DocumentClient();
-var ses = new AWS.SES();
-var sns = new AWS.SNS();
-var ssm = new AWS.SSM();
-
-exports.generateUnsubscribeLinkForUser = (email, apiId) => {
-  const time = (new Date()).getTime();
-  return "https://"+apiId+".execute-api."+process.env.AWS_REGION+".amazonaws.com/prod/unsubscribe/" + email + "/" + sha1(email+time);
-}
+const ddb = new AWS.DynamoDB.DocumentClient();
+const ses = new AWS.SES();
+const sns = new AWS.SNS();
+const ssm = new AWS.SSM();
 
 exports.handler = async (event, context) => {
-  console.log("EVENT: ", event);
-  console.log("CONTEXT: ", context);
-
-  const paramData = await ssm.getParameter({
-    Name: process.env.API_ID_PARAM_NAME,
-  }).promise();
-
-  let body = JSON.parse(event.body)
-  console.log(body);
-
-  const email = body.email;
-  const firstname = body.firstname || '';
-  const lastname = body.lastname || '';
-  console.log(email, firstname, lastname);
+  console.log("event: ", JSON.stringify(event));
+  console.log("context: ", JSON.stringify(context));
 
   try {
+    const paramData = await ssm.getParameter({
+      Name: process.env.API_ID_PARAM_NAME,
+    }).promise();
+  
+    let body = JSON.parse(event.body)
+    console.log(body);
+  
+    const email = body.email;
+    const firstname = body.firstname || '';
+    const lastname = body.lastname || '';
+    console.log(email, firstname, lastname);
 
     // send validation email to user (throws if already subscribed)
     await ses.sendCustomVerificationEmail({
@@ -56,7 +50,6 @@ exports.handler = async (event, context) => {
     }).promise();
 
     console.log("SUCCESS: verification email sent");
-
     return {
       statusCode: 200,
       body: 'SUCCESS: verification email sent',
@@ -70,7 +63,6 @@ exports.handler = async (event, context) => {
   } catch (e) {
     console.error(e);
     console.log("FAILURE: failed to send validation emai");
-
     return {
       statusCode: 500,
       body: 'FAILURE: failed to send validation email',
@@ -82,4 +74,9 @@ exports.handler = async (event, context) => {
     };
   }
 };
+
+exports.generateUnsubscribeLinkForUser = (email, apiId) => {
+  const time = (new Date()).getTime();
+  return "https://"+apiId+".execute-api."+process.env.AWS_REGION+".amazonaws.com/prod/unsubscribe/" + email + "/" + sha1(email+time);
+}
 

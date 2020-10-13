@@ -1,24 +1,12 @@
 const AWS = require('aws-sdk');
 AWS.config.update({ region: 'us-west-2' });
 
-var ddb = new AWS.DynamoDB.DocumentClient();
-var ses = new AWS.SES();
-
-exports.return500 = (message) => {
-    return {
-        statusCode: 500,
-        body: 'FAILURE: ' + message,
-    headers: {
-        "Access-Control-Allow-Headers" : "Content-Type",
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "OPTIONS,POST,GET"
-    },
-    };
-}
+const ddb = new AWS.DynamoDB.DocumentClient();
+const ses = new AWS.SES();
 
 exports.handler = async (event, context) => {
-    console.log("EVENT: ", event);
-    console.log("CONTEXT: ", context);
+    console.log("event: ", JSON.stringify(event));
+    console.log("context: ", JSON.stringify(context));
 
     // get unsublink path
     const eventParts = event.path.split("/");
@@ -48,10 +36,10 @@ exports.handler = async (event, context) => {
         console.log(userData);
         const fullDDBUnsubLink = userData.Items[0].unsubscribeLink;
         const ddbUnsubCode = fullDDBUnsubLink.split("/")[6];
-        // IFF SAME
-        if (ddbUnsubCode === receivedUnsubCode) {
-            // delete data from ddb and ses
 
+        // if user has same unsubscribe link as I originally generated
+        if (ddbUnsubCode === receivedUnsubCode) {
+            // delete user data
             await ses.deleteIdentity({ Identity: email }).promise();
             await ddb.delete({
                 TableName: process.env.SUB_TABLE_NAME,
@@ -59,6 +47,7 @@ exports.handler = async (event, context) => {
                     "email": email
                 }
             }).promise();
+
             // send txt to me to notify of new subscriber
             // await sns.publish({
             //   Message: `User UNSUBSCRIBED: \nEmail: ${email}\nName: ${firstname} ${lastname}`,
@@ -74,9 +63,8 @@ exports.handler = async (event, context) => {
                     "Access-Control-Allow-Methods": "OPTIONS,POST,GET"
                 },
             };
-
         } else {
-            console.log("BAD UNSUB LINK");
+            console.log("BAD UNSUBSCRIBE LINK");
             console.log(ddbUnsubLink);
             console.log(receivedUnsubCode);
             this.return500("failed to unsubscribe");
@@ -87,4 +75,14 @@ exports.handler = async (event, context) => {
       }
 };
   
-  
+exports.return500 = (message) => {
+    return {
+        statusCode: 500,
+        body: 'FAILURE: ' + message,
+    headers: {
+        "Access-Control-Allow-Headers" : "Content-Type",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "OPTIONS,POST,GET"
+    },
+    };
+}
