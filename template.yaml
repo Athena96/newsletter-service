@@ -152,6 +152,7 @@ Resources:
         - AmazonSQSFullAccess
         - AWSLambdaBasicExecutionRole
         - AmazonDynamoDBFullAccess
+        - AmazonSESFullAccess
       Events:
         SQSEvent:
           Type: SQS

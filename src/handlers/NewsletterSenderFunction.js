@@ -2,6 +2,7 @@ const AWS = require('aws-sdk');
 AWS.config.update({ region: 'us-west-2' });
 
 const s3 = new AWS.S3();
+const ses = new AWS.SES();
 
 exports.handler = async (event, context) => {
   console.log("event: ", JSON.stringify(event));
