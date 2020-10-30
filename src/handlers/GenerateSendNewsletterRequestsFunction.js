@@ -30,9 +30,17 @@ exports.handler = async (event, context) => {
       QueueName: process.env.QUEUE_NAME
     }).promise();
 
-
+    var filteredSubscribers = [];
+    if (process.env.SEND_TEST && process.env.SEND_TEST !== '') {
+      filteredSubscribers = allDDBSubscribers.filter(function(subscriber){
+        return subscriber.email.includes(process.env.SEND_TEST);
+      });
+    } else {
+      filteredSubscribers = allDDBSubscribers;
+    }
+   
     // write all to SQS
-    for (const subscriber of allDDBSubscribers) {
+    for (const subscriber of filteredSubscribers) {
       console.log(subscriber);
       if (subscriber.unsubscribeLink && subscriber.unsubscribeLink !== "") {
         // update unsub link to use latest API code

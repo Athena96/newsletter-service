@@ -116,6 +116,7 @@ Resources:
           QUEUE_NAME: !GetAtt NewsletterSendRequestsQueue.QueueName
           SUB_TABLE_NAME: SubscribersTable
           BATCH_SIZE: !FindInMap [BatchSizeMap, ProcessBatchSize, Value]
+          SEND_TEST: '<EMAIL_TO_TEST_WITH>'
       Policies:
         - AmazonSESFullAccess
         - AmazonDynamoDBFullAccess
