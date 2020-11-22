@@ -1,0 +1,125 @@
+{
+    "resource": "/subscribe",
+    "path": "/subscribe",
+    "httpMethod": "POST",
+    "headers": {
+        "Accept": "*/*",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-us",
+        "CloudFront-Forwarded-Proto": "https",
+        "CloudFront-Is-Desktop-Viewer": "false",
+        "CloudFront-Is-Mobile-Viewer": "true",
+        "CloudFront-Is-SmartTV-Viewer": "false",
+        "CloudFront-Is-Tablet-Viewer": "false",
+        "CloudFront-Viewer-Country": "US",
+        "content-type": "text/plain;charset=UTF-8",
+        "Host": "7ql1ribapi.execute-api.us-west-2.amazonaws.com",
+        "origin": "https://www.jaredfranzone.com",
+        "Referer": "https://www.jaredfranzone.com/newsletter",
+        "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_3_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 [FBAN/FBIOS;FBDV/iPhone11,8;FBMD/iPhone;FBSN/iOS;FBSV/13.3.1;FBSS/2;FBID/phone;FBLC/en_US;FBOP/5;FBCR/]",
+        "Via": "2.0 a42739bf13d94f39d25b67e50c531aeb.cloudfront.net (CloudFront)",
+        "X-Amz-Cf-Id": "T0E6I4bzYm81ub2PJ1zjkeI0WKmXX4R562R9uw9iPd4LLNXVflCHig==",
+        "X-Amzn-Trace-Id": "Root=1-5faf3bb5-0985974b4aafbcac72d22160",
+        "X-Forwarded-For": "174.197.10.100, 130.176.109.153",
+        "X-Forwarded-Port": "443",
+        "X-Forwarded-Proto": "https"
+    },
+    "multiValueHeaders": {
+        "Accept": [
+            "*/*"
+        ],
+        "Accept-Encoding": [
+            "gzip, deflate, br"
+        ],
+        "Accept-Language": [
+            "en-us"
+        ],
+        "CloudFront-Forwarded-Proto": [
+            "https"
+        ],
+        "CloudFront-Is-Desktop-Viewer": [
+            "false"
+        ],
+        "CloudFront-Is-Mobile-Viewer": [
+            "true"
+        ],
+        "CloudFront-Is-SmartTV-Viewer": [
+            "false"
+        ],
+        "CloudFront-Is-Tablet-Viewer": [
+            "false"
+        ],
+        "CloudFront-Viewer-Country": [
+            "US"
+        ],
+        "content-type": [
+            "text/plain;charset=UTF-8"
+        ],
+        "Host": [
+            "7ql1ribapi.execute-api.us-west-2.amazonaws.com"
+        ],
+        "origin": [
+            "https://www.jaredfranzone.com"
+        ],
+        "Referer": [
+            "https://www.jaredfranzone.com/newsletter"
+        ],
+        "User-Agent": [
+            "Mozilla/5.0 (iPhone; CPU iPhone OS 13_3_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 [FBAN/FBIOS;FBDV/iPhone11,8;FBMD/iPhone;FBSN/iOS;FBSV/13.3.1;FBSS/2;FBID/phone;FBLC/en_US;FBOP/5;FBCR/]"
+        ],
+        "Via": [
+            "2.0 a42739bf13d94f39d25b67e50c531aeb.cloudfront.net (CloudFront)"
+        ],
+        "X-Amz-Cf-Id": [
+            "T0E6I4bzYm81ub2PJ1zjkeI0WKmXX4R562R9uw9iPd4LLNXVflCHig=="
+        ],
+        "X-Amzn-Trace-Id": [
+            "Root=1-5faf3bb5-0985974b4aafbcac72d22160"
+        ],
+        "X-Forwarded-For": [
+            "174.197.10.100, 130.176.109.153"
+        ],
+        "X-Forwarded-Port": [
+            "443"
+        ],
+        "X-Forwarded-Proto": [
+            "https"
+        ]
+    },
+    "queryStringParameters": null,
+    "multiValueQueryStringParameters": null,
+    "pathParameters": null,
+    "stageVariables": null,
+    "requestContext": {
+        "resourceId": "eguo9h",
+        "resourcePath": "/subscribe",
+        "httpMethod": "POST",
+        "extendedRequestId": "V-ZEYEvqPHcF8DQ=",
+        "requestTime": "14/Nov/2020:02:06:45 +0000",
+        "path": "/prod/subscribe",
+        "accountId": "173916683421",
+        "protocol": "HTTP/1.1",
+        "stage": "prod",
+        "domainPrefix": "7ql1ribapi",
+        "requestTimeEpoch": 1605319605582,
+        "requestId": "63977787-eb36-4225-9d9d-f6745fc93365",
+        "identity": {
+            "cognitoIdentityPoolId": null,
+            "accountId": null,
+            "cognitoIdentityId": null,
+            "caller": null,
+            "sourceIp": "174.197.10.100",
+            "principalOrgId": null,
+            "accessKey": null,
+            "cognitoAuthenticationType": null,
+            "cognitoAuthenticationProvider": null,
+            "userArn": null,
+            "userAgent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_3_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 [FBAN/FBIOS;FBDV/iPhone11,8;FBMD/iPhone;FBSN/iOS;FBSV/13.3.1;FBSS/2;FBID/phone;FBLC/en_US;FBOP/5;FBCR/]",
+            "user": null
+        },
+        "domainName": "7ql1ribapi.execute-api.us-west-2.amazonaws.com",
+        "apiId": "7ql1ribapi"
+    },
+    "body": "{\"email\":\"someuseremail@email.com\",\"firstname\":\"John\",\"lastname\":\"Smith\"}",
+    "isBase64Encoded": false
+}
