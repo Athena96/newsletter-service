@@ -28,6 +28,8 @@ exports.handler = async (event, context) => {
     
     console.log('Sending newsletter to: ' + msg.email.stringValue);
     await sendSNSEmail([msg.email.stringValue], newsletter);
+    console.log('newsletter sent to: ' + msg.email.stringValue);
+
   }
 };
 

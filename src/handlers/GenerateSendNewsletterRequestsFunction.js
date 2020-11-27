@@ -60,7 +60,7 @@ exports.handler = async (event, context) => {
             },
             "firstname": {
               DataType: "String",
-              StringValue: subscriber.firstname
+              StringValue: subscriber.firstname || ''
             },
             "unsubscribeLink": {
               DataType: "String",
@@ -73,6 +73,7 @@ exports.handler = async (event, context) => {
     }
 
   } catch(error) {
+    console.error("error sending SQS message for: " + console.log(JSON.stringify(subscriber)));
     console.error(error);
   }
 };
