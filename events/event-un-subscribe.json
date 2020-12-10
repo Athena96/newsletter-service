@@ -1,0 +1,136 @@
+{
+    "resource": "/unsubscribe/{email}/{unsubLink}",
+    "path": "/unsubscribe/zenspending@gmail.com/679b98318e386faaa4f6f8fc50948cc93189393a",
+    "httpMethod": "GET",
+    "headers": {
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US,en;q=0.9",
+        "CloudFront-Forwarded-Proto": "https",
+        "CloudFront-Is-Desktop-Viewer": "true",
+        "CloudFront-Is-Mobile-Viewer": "false",
+        "CloudFront-Is-SmartTV-Viewer": "false",
+        "CloudFront-Is-Tablet-Viewer": "false",
+        "CloudFront-Viewer-Country": "US",
+        "Host": "7ql1ribapi.execute-api.us-west-2.amazonaws.com",
+        "sec-fetch-dest": "document",
+        "sec-fetch-mode": "navigate",
+        "sec-fetch-site": "none",
+        "sec-fetch-user": "?1",
+        "upgrade-insecure-requests": "1",
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.193 Safari/537.36",
+        "Via": "2.0 7e87179efaa9e3c316bd3d3a74cfded8.cloudfront.net (CloudFront)",
+        "X-Amz-Cf-Id": "yoj41owMQHgUEZwM2G4Dtwak5wIWGIrGc8HJgOauQu1bFNGvX1WaWg==",
+        "X-Amzn-Trace-Id": "Root=1-5fb9adc7-4264bdd961b03e5654593004",
+        "X-Forwarded-For": "71.197.148.211, 64.252.141.162",
+        "X-Forwarded-Port": "443",
+        "X-Forwarded-Proto": "https"
+    },
+    "multiValueHeaders": {
+        "Accept": [
+            "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9"
+        ],
+        "Accept-Encoding": [
+            "gzip, deflate, br"
+        ],
+        "Accept-Language": [
+            "en-US,en;q=0.9"
+        ],
+        "CloudFront-Forwarded-Proto": [
+            "https"
+        ],
+        "CloudFront-Is-Desktop-Viewer": [
+            "true"
+        ],
+        "CloudFront-Is-Mobile-Viewer": [
+            "false"
+        ],
+        "CloudFront-Is-SmartTV-Viewer": [
+            "false"
+        ],
+        "CloudFront-Is-Tablet-Viewer": [
+            "false"
+        ],
+        "CloudFront-Viewer-Country": [
+            "US"
+        ],
+        "Host": [
+            "7ql1ribapi.execute-api.us-west-2.amazonaws.com"
+        ],
+        "sec-fetch-dest": [
+            "document"
+        ],
+        "sec-fetch-mode": [
+            "navigate"
+        ],
+        "sec-fetch-site": [
+            "none"
+        ],
+        "sec-fetch-user": [
+            "?1"
+        ],
+        "upgrade-insecure-requests": [
+            "1"
+        ],
+        "User-Agent": [
+            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.193 Safari/537.36"
+        ],
+        "Via": [
+            "2.0 7e87179efaa9e3c316bd3d3a74cfded8.cloudfront.net (CloudFront)"
+        ],
+        "X-Amz-Cf-Id": [
+            "yoj41owMQHgUEZwM2G4Dtwak5wIWGIrGc8HJgOauQu1bFNGvX1WaWg=="
+        ],
+        "X-Amzn-Trace-Id": [
+            "Root=1-5fb9adc7-4264bdd961b03e5654593004"
+        ],
+        "X-Forwarded-For": [
+            "71.197.148.211, 64.252.141.162"
+        ],
+        "X-Forwarded-Port": [
+            "443"
+        ],
+        "X-Forwarded-Proto": [
+            "https"
+        ]
+    },
+    "queryStringParameters": null,
+    "multiValueQueryStringParameters": null,
+    "pathParameters": {
+        "unsubLink": "679b98318e386faaa4f6f8fc50948cc93189393a",
+        "email": "zenspending@gmail.com"
+    },
+    "stageVariables": null,
+    "requestContext": {
+        "resourceId": "yjwdku",
+        "resourcePath": "/unsubscribe/{email}/{unsubLink}",
+        "httpMethod": "GET",
+        "extendedRequestId": "WYgXLHivvHcF4ug=",
+        "requestTime": "22/Nov/2020:00:16:07 +0000",
+        "path": "/prod/unsubscribe/zenspending@gmail.com/679b98318e386faaa4f6f8fc50948cc93189393a",
+        "accountId": "173916683421",
+        "protocol": "HTTP/1.1",
+        "stage": "prod",
+        "domainPrefix": "7ql1ribapi",
+        "requestTimeEpoch": 1606004167494,
+        "requestId": "5742d3cf-a77c-4720-ae20-a3301993fff0",
+        "identity": {
+            "cognitoIdentityPoolId": null,
+            "accountId": null,
+            "cognitoIdentityId": null,
+            "caller": null,
+            "sourceIp": "71.197.148.211",
+            "principalOrgId": null,
+            "accessKey": null,
+            "cognitoAuthenticationType": null,
+            "cognitoAuthenticationProvider": null,
+            "userArn": null,
+            "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.193 Safari/537.36",
+            "user": null
+        },
+        "domainName": "7ql1ribapi.execute-api.us-west-2.amazonaws.com",
+        "apiId": "7ql1ribapi"
+    },
+    "body": null,
+    "isBase64Encoded": false
+}

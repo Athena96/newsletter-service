@@ -5,7 +5,7 @@ class Follower {
         console.log("Creating Follower from: ");
         console.log(body);
 
-        this.email = body.email;
+        this.email = body.email.toLowerCase();
         this.firstname = body.firstname || '';
         this.lastname = body.lastname || '';
     }       
