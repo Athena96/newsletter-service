@@ -24,24 +24,28 @@ exports.handler = async (event, context) => {
       Limit: process.env.BATCH_SIZE
     });
 
-    console.log(allDDBSubscribers);
+    console.log("allDDBSubscribers: " + allDDBSubscribers);
 
     const queueUrl = await sqs.getQueueUrl({
       QueueName: process.env.QUEUE_NAME
     }).promise();
+    console.log("queueUrl: " + JSON.stringify(queueUrl));
+
+    console.log("process.env.SEND_TEST: " + process.env.SEND_TEST);
 
     var filteredSubscribers = [];
-    if (process.env.SEND_TEST && process.env.SEND_TEST !== '') {
+    if (process.env.SEND_TEST && process.env.SEND_TEST !== 'false') {
       filteredSubscribers = allDDBSubscribers.filter(function(subscriber){
         return subscriber.email.includes(process.env.SEND_TEST);
       });
     } else {
       filteredSubscribers = allDDBSubscribers;
     }
-   
+    console.log("filteredSubscribers: " + filteredSubscribers);
+
     // write all to SQS
     for (const subscriber of filteredSubscribers) {
-      console.log(subscriber);
+      console.log("REQUEST FOR: " + subscriber);
       if (subscriber.unsubscribeLink && subscriber.unsubscribeLink !== "") {
         // update unsub link to use latest API code
         const currentUnsublink = updateUnsubLink(subscriber, currentApiCode);
@@ -68,7 +72,7 @@ exports.handler = async (event, context) => {
             }
           }
         }).promise();
-        console.log(res);
+        console.log("SENT: " + res);
       }
     }
 
