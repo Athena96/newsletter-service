@@ -45,7 +45,7 @@ exports.handler = async (event, context) => {
 
     // write all to SQS
     for (const subscriber of filteredSubscribers) {
-      console.log("REQUEST FOR: " + subscriber);
+      console.log("REQUEST FOR: " + JSON.stringify(subscriber));
       if (subscriber.unsubscribeLink && subscriber.unsubscribeLink !== "") {
         // update unsub link to use latest API code
         const currentUnsublink = updateUnsubLink(subscriber, currentApiCode);

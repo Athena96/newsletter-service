@@ -10,7 +10,7 @@ Parameters:
 Mappings:
   BatchSizeMap:
     ProcessBatchSize:
-      Value: 5
+      Value: 1
 
 Resources:
 
